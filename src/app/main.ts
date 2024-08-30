@@ -1,44 +1,53 @@
 import {
   BoxGeometry,
-  Mesh,
-  MeshNormalMaterial,
-  PerspectiveCamera,
+  InstancedMesh,
+  Matrix4,
+  MeshLambertMaterial,
   Scene,
-  WebGLRenderer,
+  Vector3,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
+import { Environment } from "./environment/Environment";
+import { textures } from "./textures/MaterialManager";
 
-const scene = new Scene();
-const camera = new PerspectiveCamera(
-  70,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  100
-);
-const renderer = new WebGLRenderer({ antialias: true });
-
-document.body.appendChild(renderer.domElement);
-
-renderer.setSize(window.innerWidth, window.innerHeight);
+const environment = new Environment();
+const { renderer, camera, scene, stats } = environment.getEssentials();
 
 //添加一个测试方块
 
-const geometry = new BoxGeometry(1, 1, 1);
-const material = new MeshNormalMaterial();
+function addBlocks(scene: Scene, size: number) {
+  const geometry = new BoxGeometry(1, 1, 1);
+  const material = new MeshLambertMaterial({ map: textures.grass });
+  const block = new InstancedMesh(geometry, material, size * size);
+  const matrix = new Matrix4();
+  let count = 0;
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      //设置instancedMesh中某个物体所在的位置的方法
+      //1. 指定这个物体的坐标
+      //2. 创建一个新的矩阵变换(Matrix4), 并且将它的变换设置为"变换到相应坐标";
+      //3. 将instancedMesh中某个id设置为这个矩阵变换
+      const position = new Vector3(i, 0, j);
+      matrix.setPosition(position);
+      block.setMatrixAt(count, matrix);
+      count++;
+    }
+  }
+  scene.add(block);
+  return block;
+}
 
 const orbitControls = new OrbitControls(camera, renderer.domElement);
 
-const mesh = new Mesh(geometry, material);
-
-scene.add(mesh);
-
-camera.position.z = 5;
+addBlocks(scene, 128);
 
 //渲染循环，整个程序的核心
 function renderLoop() {
-  renderer.render(scene, camera);
+  environment.render();
 
   orbitControls.update();
+
+  stats.update();
 
   requestAnimationFrame(renderLoop);
 }
