@@ -1,5 +1,5 @@
+import { BlockName } from "../block/blocks";
 import { selectableImages } from "../textures/MaterialManager";
-import { BlockName } from "../world/World";
 
 export class HotBar {
   private currentBlock: BlockName;
@@ -36,6 +36,7 @@ export class HotBar {
 
   public setActivatedTexture(texture: BlockName) {
     const ui = document.querySelector(".hotbar");
+
     if (ui) {
       ui.classList.remove("invisible");
       for (const item of this.images) {

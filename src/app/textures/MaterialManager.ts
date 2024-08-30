@@ -12,7 +12,7 @@ import log from "./resources/log.jpg";
 import stone from "./resources/stone.png";
 import glass from "./resources/glass.png";
 import grassSide from "./resources/grass_side.png";
-import { BlockName } from "../world/World";
+import { BlockName } from "../block/blocks";
 
 //创建一个规范Textures对象的type
 export type Textures = {

@@ -1,7 +1,9 @@
-import { PerspectiveCamera, Raycaster, Vector2, Vector3 } from "three";
+import { Euler, PerspectiveCamera, Raycaster, Vector2, Vector3 } from "three";
 import { PointerLockControls } from "three/examples/jsm/Addons.js";
-import { BlockName, World } from "../world/World";
+import { World } from "../world/World";
 import { HotBar } from "../ui/TextureSelector";
+import { BlockName } from "../block/blocks";
+import { WORLD_HEIGHT, WORLD_SIZE } from "../constants";
 
 type KeyCodes =
   | "KeyW"
@@ -16,6 +18,7 @@ type KeyCodes =
   | "Digit4"
   | "Digit5"
   | "Digit6";
+
 type AcceptedKeyActions =
   | "moveForward"
   | "moveLeft"
@@ -42,7 +45,7 @@ const KEY_ACTION_MAP: KeyActionMapType = {
   Space: "jump", //控制玩家跳跃(飞行上升)
   ShiftLeft: "sneak", //控制玩家下蹲(飞行下降)
 
-  //方块选择按键
+  //方块选择
   Digit1: "dirt",
   Digit2: "log",
   Digit3: "grass",
@@ -80,20 +83,29 @@ export class Player {
   private camera: PerspectiveCamera;
   private raycaster: Raycaster;
   private world: World;
+  private placeInterval: number; //放置方块间隔定时器的id
+  private breakInterval: number; //破坏方块间隔定时器的id
+  private isOnGround: boolean;
+  private velocity: Vector3 = new Vector3();
+  private position: Vector3;
+  private static worldVelocity: Vector3 = new Vector3();
+  private entityRadius: number = 0.25;
+  private entityHeight: number = 1.5;
+
   private textureSelector: HotBar;
 
-  private placeIntervalId: number = -1;
-  private breakIntervalId: number = -1;
-
-  private static SPEED = 0.05;
-  private static JUMP_FORCE = 0.05;
+  private static SPEED = 3;
+  private static JUMP_FORCE = 10;
 
   constructor(camera: PerspectiveCamera, world: World, canvas: HTMLElement) {
     this.fpvControls = new PointerLockControls(camera, canvas); //添加第一人称视角控制
     this.camera = camera;
     this.world = world;
+    this.textureSelector = new HotBar();
 
     this.raycaster = new Raycaster();
+    this.placeInterval = -1;
+    this.breakInterval = -1;
 
     this.keyActions = {
       moveForward: false,
@@ -102,29 +114,51 @@ export class Player {
       moveRight: false,
       jump: false,
       sneak: false,
-
-      dirt: false,
       grass: false,
       glass: false,
       plank: false,
-      stone: false,
+      dirt: false,
       log: false,
       air: false,
+      stone: false,
     }; //状态记录表
 
-    this.textureSelector = new HotBar();
+    this.position = new Vector3(0, 0, 0);
+    this.isOnGround = false;
 
     this.initFpvControl();
     this.initPositionControl();
     this.initBlockControl();
+
+    this.spawn();
+  }
+
+  private spawn() {
+    this.camera.position.set(WORLD_SIZE / 2, WORLD_HEIGHT - 1, WORLD_SIZE / 2);
+    this.camera.rotation.set(0, 0, 0);
+
+    this.position = this.camera.position;
+  }
+
+  private resetGame() {
+    this.spawn();
   }
 
   private handleKeydown(e: KeyboardEvent) {
+    if (e.code === "KeyR") {
+      this.resetGame();
+    }
+
+    if (e.code === "Escape") {
+      this.fpvControls.unlock();
+    }
     //...通过某个函数获取到这个按键对应的动作, 这个函数将帮助我们来找到动作是什么
     const action = getActionByKey(e.code as KeyCodes);
+
     if (action) {
       //如果玩家触发了某个动作
       this.keyActions[action] = true;
+
       this.updateBlockSelection();
     }
     console.log(action);
@@ -141,9 +175,7 @@ export class Player {
   private updateBlockSelection() {
     const { dirt, grass, glass, log, plank, stone } = this.keyActions;
     const blocks = { dirt, grass, glass, log, plank, stone };
-    const selectedTextures = Object.entries(blocks).find(
-      ([key, value]) => value
-    );
+    const selectedTextures = Object.entries(blocks).find(([_, v]) => v);
     if (selectedTextures) {
       this.textureSelector.setActivatedTexture(
         selectedTextures[0] as BlockName
@@ -191,16 +223,14 @@ export class Player {
     console.log(action);
     switch (action) {
       case "break":
-        //先立即执行一次
         this.breakBlockState();
-        //然后再每隔一定间隔连续破坏下一个方块(鼠标长按)
-        this.breakIntervalId = setInterval(() => {
+        this.breakInterval = setInterval(() => {
           this.breakBlockState();
         }, 200);
         break;
       case "put":
         this.putBlockState();
-        this.placeIntervalId = setInterval(() => {
+        this.placeInterval = setInterval(() => {
           this.putBlockState();
         }, 200);
         break;
@@ -217,10 +247,10 @@ export class Player {
     console.log(action);
     switch (action) {
       case "break":
-        clearInterval(this.breakIntervalId);
+        clearInterval(this.breakInterval);
         break;
       case "put":
-        clearInterval(this.placeIntervalId);
+        clearInterval(this.placeInterval);
         break;
       case "middleClick":
       default:
@@ -262,8 +292,8 @@ export class Player {
   }
 
   //调用函数时进行玩家的更新
-  public update() {
-    const { moveForward, moveBackward, moveLeft, moveRight, jump, sneak } =
+  public update(deltaTick: number) {
+    const { moveForward, moveBackward, moveLeft, moveRight, jump } =
       this.keyActions;
 
     //整个控制逻辑大致如下:
@@ -296,18 +326,59 @@ export class Player {
     //表示竖直方向上的速度总量
     const verticalVector = new Vector3();
 
-    if (jump) {
+    if (jump && this.isOnGround) {
       verticalVector.y += Player.JUMP_FORCE;
     }
 
-    if (sneak) {
-      verticalVector.y -= Player.JUMP_FORCE;
-    }
+    const velocityAdjustment = horizontalVector.add(verticalVector);
 
-    const velocity = horizontalVector.add(verticalVector);
+    this.velocity.x = velocityAdjustment.x * deltaTick;
+    this.velocity.y += verticalVector.y;
+    this.velocity.z = velocityAdjustment.z * deltaTick;
 
-    this.fpvControls.moveForward(-velocity.z);
-    this.fpvControls.moveRight(velocity.x);
-    this.camera.position.y += verticalVector.y;
+    //将相机的位置设置为位置变量的值, 相当于相机跟随玩家的视角
+    this.position.y += this.velocity.y * deltaTick;
+    this.fpvControls.moveForward(-this.velocity.z);
+    this.fpvControls.moveRight(this.velocity.x);
+    this.camera.position.setY(this.position.y);
+  }
+
+  public setVelocity(velocity: Vector3) {
+    this.velocity = velocity;
+  }
+
+  public setIsOnGround(onGround: boolean) {
+    this.isOnGround = onGround;
+  }
+
+  public getVelocity() {
+    return this.velocity;
+  }
+
+  public getPosition() {
+    return this.position;
+  }
+
+  public setPosition(position: Vector3) {
+    this.position = position;
+  }
+
+  public getRadius() {
+    return this.entityRadius;
+  }
+
+  public getHeight() {
+    return this.entityHeight;
+  }
+
+  public getWorldVelocity() {
+    Player.worldVelocity.copy(this.velocity);
+    Player.worldVelocity.applyEuler(new Euler(0, this.camera.rotation.y, 0));
+    return Player.worldVelocity;
+  }
+
+  public applyWorldDeltaVelocity(deltaVelocity: Vector3) {
+    deltaVelocity.applyEuler(new Euler(0, -this.camera.rotation.y, 0));
+    this.velocity.add(deltaVelocity);
   }
 }

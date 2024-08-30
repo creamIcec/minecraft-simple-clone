@@ -15,20 +15,15 @@ import { Block } from "../block/Block";
 import { WORLD_SIZE, WORLD_HEIGHT } from "../constants";
 import { SimplexNoise } from "three/examples/jsm/Addons.js";
 import { RNG } from "../utils/rng";
-
-export type BlockName =
-  | "grass"
-  | "dirt"
-  | "plank"
-  | "log"
-  | "stone"
-  | "glass"
-  | "air";
+import { BlockName } from "../block/blocks";
 
 export interface BlockState {
   name: BlockName;
   instanceId: number | null; //目前这个位置的方块有没有分配instanceId? 如果为null, 说明目前这个方块存在于这个世界上，但是被完全遮挡，不需要显示，如果为一个数字，说明正常显示
 }
+
+export type BlockPos = { x: number; y: number; z: number };
+export type Pos = BlockPos;
 
 export type BlockStates = BlockState[][][];
 
@@ -293,8 +288,9 @@ export class World {
 
       block.object.setMatrixAt(instanceId, lastMatrix);
       block.object.count--;
-      block.object.computeBoundingSphere();
+
       block.object.instanceMatrix.needsUpdate = true;
+      block.object.computeBoundingSphere();
 
       //4. tryShowBlock
       this.tryShowBlock(x - 1, y, z);
@@ -412,8 +408,8 @@ export class World {
       instancedMesh.count--;
 
       //告诉系统该方块的碰撞箱(用于raycaster)需要更新
-      instancedMesh.computeBoundingSphere();
       instancedMesh.instanceMatrix.needsUpdate = true;
+      instancedMesh.computeBoundingSphere();
 
       this.setInstanceIdAt(x, y, z, null);
     }
