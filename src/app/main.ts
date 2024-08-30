@@ -1,80 +1,19 @@
-import {
-  AmbientLight,
-  BoxGeometry,
-  Color,
-  DirectionalLight,
-  DirectionalLightHelper,
-  InstancedMesh,
-  Matrix4,
-  MeshLambertMaterial,
-  Scene,
-  Vector3,
-} from "three";
-import { PointerLockControls } from "three/examples/jsm/Addons.js";
 import { Environment } from "./environment/Environment";
-import { textures } from "./textures/MaterialManager";
+import { Player } from "./player/Player";
+import { World } from "./world/World";
 
 const environment = new Environment();
 const { renderer, camera, scene, stats } = environment.getEssentials();
 
-//初始化我们的世界
-function initWorld(scene: Scene) {
-  //更改天空颜色
-  scene.background = new Color(0x75bfef); //#75bfef
-
-  //添加光照
-  const environmentLight = new AmbientLight(0xeeeeee, 0.7);
-  scene.add(environmentLight);
-
-  //添加阳光
-  const sunLight = new DirectionalLight();
-  sunLight.position.set(5, 50, 40);
-
-  const lightHelper = new DirectionalLightHelper(sunLight, 8, new Color("red"));
-  scene.add(lightHelper);
-
-  scene.add(sunLight);
-}
-
-//添加一片测试方块
-function addBlocks(scene: Scene, size: number) {
-  const geometry = new BoxGeometry(1, 1, 1);
-  const material = new MeshLambertMaterial({ map: textures.grass });
-  const block = new InstancedMesh(geometry, material, size * size);
-  const matrix = new Matrix4();
-  let count = 0;
-  for (let i = 0; i < size; i++) {
-    for (let j = 0; j < size; j++) {
-      //设置instancedMesh中某个物体所在的位置的方法
-      //1. 指定这个物体的坐标
-      //2. 创建一个新的矩阵变换(Matrix4), 并且将它的变换设置为"变换到相应坐标";
-      //3. 将instancedMesh中某个id设置为这个矩阵变换
-      const position = new Vector3(i, 0, j);
-      matrix.setPosition(position);
-      block.setMatrixAt(count, matrix);
-      count++;
-    }
-  }
-  scene.add(block);
-  return block;
-}
-
-initWorld(scene); //初始化世界
-addBlocks(scene, 16); //生成方块
-
-const fpvControls = new PointerLockControls(camera, renderer.domElement); //添加第一人称视角控制
-//click: 鼠标单击
-//keydown: 按下按键
-//keyup: 抬起按键
-document.addEventListener("click", () => {
-  if (!fpvControls.isLocked) {
-    fpvControls.lock();
-  }
-});
+const world = new World(scene);
+const player = new Player(camera, renderer.domElement);
+world.addBlocks(16); //生成方块
 
 //渲染循环，整个程序的核心
 function renderLoop() {
   environment.render();
+
+  player.update();
 
   stats.update();
 

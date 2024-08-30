@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="66NhC8WV4g8qjToAEwFm" name="第 1 页">
-        <mxGraphModel dx="883" dy="610" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1105" dy="349" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -94,71 +94,140 @@
                 <mxCell id="27" value="每个方块的材质" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="300" y="850" width="100" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="38" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="31" target="37">
+                <mxCell id="38" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="31" target="37" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="31" value="Object3D" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="31" value="Object3D" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="650" y="830" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="32" style="edgeStyle=none;html=1;entryX=0.473;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="35">
+                <mxCell id="32" style="edgeStyle=none;html=1;entryX=0.473;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="514.4140197152244" y="990" as="sourcePoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="41" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="37" target="39">
+                <mxCell id="41" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="37" target="39" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="42" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="37" target="40">
+                <mxCell id="42" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="37" target="40" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="37" value="InstancedMesh" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="37" value="InstancedMesh" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="650" y="930" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="39" value="Geometry" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="39" value="Geometry" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="575" y="1014" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="40" value="Material" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="40" value="Material" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="725" y="1014" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="43" value="渲染大量相同材质物体时&lt;br&gt;物体仅仅是位置或旋转等物理变换不同" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="43" value="渲染大量相同材质物体时&lt;br&gt;物体仅仅是位置或旋转等物理变换不同" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="790" y="940" width="230" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="44" value="InstancedMesh" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="44" value="InstancedMesh" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1070" y="790" width="100" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="45" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="45" value="" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="1070" y="870" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="47" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="47" value="" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="1130" y="870" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="48" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="48" value="" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="1190" y="870" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="49" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="49" value="" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="1250" y="870" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="50" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="50" value="" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="1310" y="870" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="51" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="51" value="" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="1370" y="870" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="52" value="..." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="52" value="..." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1455" y="895" width="30" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="53" value="128 * 128" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="53" value="128 * 128" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1230" y="1020" width="70" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="54" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+                <mxCell id="54" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" edge="1">
                     <mxGeometry width="100" relative="1" as="geometry">
                         <mxPoint x="1160" y="990" as="sourcePoint"/>
                         <mxPoint x="1160" y="940" as="targetPoint"/>
                         <Array as="points"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="55" value="index" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="55" value="index" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="1135" y="1000" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="58" style="edgeStyle=none;html=1;" parent="1" source="56" target="57" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="56" value="键位" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="870" y="410" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="57" value="动作" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="1050" y="410" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="59" value="状态机" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="1230" y="570" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="61" value="" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="1230" y="620" width="320" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="62" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+                    <mxGeometry x="1260" y="644" width="30" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="63" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+                    <mxGeometry x="1310" y="644" width="30" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="64" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
+                    <mxGeometry x="1360" y="644" width="30" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="65" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+                    <mxGeometry x="1410" y="644" width="30" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="66" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" parent="1" vertex="1">
+                    <mxGeometry x="1460" y="644" width="30" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="68" value="前进" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="685" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="70" value="后退" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="1300" y="685" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="71" value="左移" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="1350" y="685" width="50" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="72" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" edge="1">
+                    <mxGeometry width="100" relative="1" as="geometry">
+                        <mxPoint x="90" y="1110" as="sourcePoint"/>
+                        <mxPoint x="90" y="1050" as="targetPoint"/>
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="73" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" edge="1">
+                    <mxGeometry width="100" relative="1" as="geometry">
+                        <mxPoint x="90" y="1110" as="sourcePoint"/>
+                        <mxPoint x="60" y="1110" as="targetPoint"/>
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="74" value="&lt;div style=&quot;background-color: rgb(1, 27, 28); font-family: &amp;quot;Fira Code Regular&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: bold; font-size: 16px; line-height: 22px;&quot;&gt;&lt;font color=&quot;#e8c391&quot;&gt;VerticalVector&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="1020" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="75" value="&lt;div style=&quot;background-color: rgb(1, 27, 28); font-family: &amp;quot;Fira Code Regular&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: bold; font-size: 16px; line-height: 22px;&quot;&gt;&lt;font color=&quot;#e8c391&quot;&gt;HorizontalVector&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="1115" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="76" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" edge="1">
+                    <mxGeometry width="100" relative="1" as="geometry">
+                        <mxPoint x="90" y="1110" as="sourcePoint"/>
+                        <mxPoint x="60" y="1050" as="targetPoint"/>
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="77" value="&lt;div style=&quot;background-color: rgb(1, 27, 28); font-family: &amp;quot;Fira Code Regular&amp;quot;, &amp;quot;Courier New&amp;quot;, monospace, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: bold; font-size: 16px; line-height: 22px;&quot;&gt;&lt;font color=&quot;#e8c391&quot;&gt;velocity&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="-50" y="1010" width="100" height="40" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
