@@ -1,0 +1,19 @@
+{
+  "name": "01-threejs-introduction",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3",
+    "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "@types/three": "^0.167.1",
+    "three": "^0.167.1"
+  }
+}
