@@ -345,6 +345,7 @@ export class World {
           y = placePosition.y,
           z = placePosition.z;
         this.setBlockStateAt(x, y, z, newBlockStateType);
+        this.setInstanceIdAt(x, y, z, index);
 
         //7. 隐藏周边的方块
         //7.1 判断可能隐藏的位置方块是否可见

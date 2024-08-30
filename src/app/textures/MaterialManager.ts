@@ -19,6 +19,10 @@ export type Textures = {
   [key in string]: Texture; //只能是grass或者dirt
 };
 
+export type Images = {
+  [key in string]: string;
+};
+
 //1. 创建一个新的TextureLoader, 这是three.js提供的工具, 用于加载纹理
 const textureLoader = new TextureLoader();
 //2. 调用loadTexture(url)加载材质
@@ -49,6 +53,15 @@ const textures: Textures = {
   glass: glassTexture,
 };
 
+const selectableImages: Images = {
+  dirt,
+  log,
+  grass,
+  glass,
+  plank,
+  stone,
+};
+
 //通过名字获得方块的材质, 进行一些内部的操作, 在返回之前能够根据实际的方块进行组装
 export function getMaterialByName(name: BlockName) {
   if (name === "grass") {
@@ -69,3 +82,5 @@ export function getMaterialByName(name: BlockName) {
     opacity: name === "glass" ? 0.6 : 1,
   });
 }
+
+export { selectableImages };

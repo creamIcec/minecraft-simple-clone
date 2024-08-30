@@ -1,15 +1,29 @@
 import { PerspectiveCamera, Raycaster, Vector2, Vector3 } from "three";
 import { PointerLockControls } from "three/examples/jsm/Addons.js";
-import { World } from "../world/World";
+import { BlockName, World } from "../world/World";
+import { HotBar } from "../ui/TextureSelector";
 
-type KeyCodes = "KeyW" | "KeyA" | "KeyS" | "KeyD" | "Space" | "ShiftLeft";
+type KeyCodes =
+  | "KeyW"
+  | "KeyA"
+  | "KeyS"
+  | "KeyD"
+  | "Space"
+  | "ShiftLeft"
+  | "Digit1"
+  | "Digit2"
+  | "Digit3"
+  | "Digit4"
+  | "Digit5"
+  | "Digit6";
 type AcceptedKeyActions =
   | "moveForward"
   | "moveLeft"
   | "moveBackward"
   | "moveRight"
   | "jump"
-  | "sneak";
+  | "sneak"
+  | BlockName;
 
 //作为按键映射表的type
 export type KeyActionMapType = {
@@ -27,6 +41,14 @@ const KEY_ACTION_MAP: KeyActionMapType = {
   KeyD: "moveRight", //控制玩家右移
   Space: "jump", //控制玩家跳跃(飞行上升)
   ShiftLeft: "sneak", //控制玩家下蹲(飞行下降)
+
+  //方块选择按键
+  Digit1: "dirt",
+  Digit2: "log",
+  Digit3: "grass",
+  Digit4: "glass",
+  Digit5: "plank",
+  Digit6: "stone",
 };
 
 type MouseCodes = 0 | 1 | 2;
@@ -58,6 +80,10 @@ export class Player {
   private camera: PerspectiveCamera;
   private raycaster: Raycaster;
   private world: World;
+  private textureSelector: HotBar;
+
+  private placeIntervalId: number = -1;
+  private breakIntervalId: number = -1;
 
   private static SPEED = 0.05;
   private static JUMP_FORCE = 0.05;
@@ -76,7 +102,17 @@ export class Player {
       moveRight: false,
       jump: false,
       sneak: false,
+
+      dirt: false,
+      grass: false,
+      glass: false,
+      plank: false,
+      stone: false,
+      log: false,
+      air: false,
     }; //状态记录表
+
+    this.textureSelector = new HotBar();
 
     this.initFpvControl();
     this.initPositionControl();
@@ -89,6 +125,7 @@ export class Player {
     if (action) {
       //如果玩家触发了某个动作
       this.keyActions[action] = true;
+      this.updateBlockSelection();
     }
     console.log(action);
   } //用于处理玩家按下某个键的函数
@@ -100,6 +137,19 @@ export class Player {
       this.keyActions[action] = false;
     }
   } //用于处理玩家抬起某个键的函数
+
+  private updateBlockSelection() {
+    const { dirt, grass, glass, log, plank, stone } = this.keyActions;
+    const blocks = { dirt, grass, glass, log, plank, stone };
+    const selectedTextures = Object.entries(blocks).find(
+      ([key, value]) => value
+    );
+    if (selectedTextures) {
+      this.textureSelector.setActivatedTexture(
+        selectedTextures[0] as BlockName
+      );
+    }
+  }
 
   //发出破坏方块的信号
   private breakBlockState() {
@@ -127,7 +177,10 @@ export class Player {
     //3. 向world发出破坏那个方块的信号
     if (targetBlocks && targetBlocks[0]) {
       //调用world提供的放置方块的方法
-      this.world.placeBlockState(targetBlocks[0], "plank");
+      this.world.placeBlockState(
+        targetBlocks[0],
+        this.textureSelector.getActivatedTexture()
+      );
     }
   }
 
@@ -138,10 +191,18 @@ export class Player {
     console.log(action);
     switch (action) {
       case "break":
+        //先立即执行一次
         this.breakBlockState();
+        //然后再每隔一定间隔连续破坏下一个方块(鼠标长按)
+        this.breakIntervalId = setInterval(() => {
+          this.breakBlockState();
+        }, 200);
         break;
       case "put":
         this.putBlockState();
+        this.placeIntervalId = setInterval(() => {
+          this.putBlockState();
+        }, 200);
         break;
       case "middleClick":
       default:
@@ -156,8 +217,10 @@ export class Player {
     console.log(action);
     switch (action) {
       case "break":
+        clearInterval(this.breakIntervalId);
         break;
       case "put":
+        clearInterval(this.placeIntervalId);
         break;
       case "middleClick":
       default:
