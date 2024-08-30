@@ -1,5 +1,6 @@
 import { AmbientLight, PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import Stats from "three/addons/libs/stats.module.js";
+import { WORLD_SIZE } from "../constants";
 
 export class Environment {
   private renderer: WebGLRenderer;
@@ -37,7 +38,7 @@ export class Environment {
 
   //初始化相机
   private initCamera() {
-    this.camera.position.set(20, 10, 20);
+    this.camera.position.set(WORLD_SIZE - 1, 30, WORLD_SIZE - 1);
   }
 
   //初始化帧率查看器

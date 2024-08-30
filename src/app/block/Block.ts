@@ -1,6 +1,7 @@
 import { BoxGeometry, InstancedMesh } from "three";
 import { BlockName } from "../world/World";
 import { getMaterialByName } from "../textures/MaterialManager";
+import { WORLD_HEIGHT, WORLD_SIZE } from "../constants";
 
 export class Block {
   private instancedMesh: InstancedMesh;
@@ -8,7 +9,11 @@ export class Block {
   constructor(name: BlockName) {
     const geometry = new BoxGeometry(1, 1, 1);
     const material = getMaterialByName(name);
-    this.instancedMesh = new InstancedMesh(geometry, material, 16 * 16);
+    this.instancedMesh = new InstancedMesh(
+      geometry,
+      material,
+      WORLD_SIZE * WORLD_SIZE
+    );
 
     this.name = name;
   }
