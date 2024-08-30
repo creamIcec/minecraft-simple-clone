@@ -1,4 +1,4 @@
-import { NearestFilter, Texture, TextureLoader } from "three";
+import { NearestFilter, SRGBColorSpace, Texture, TextureLoader } from "three";
 import grass from "./resources/grass.png";
 import grassSide from "./resources/grass_side.png";
 
@@ -14,6 +14,7 @@ const grassTexture = textureLoader.load(grass);
 const grassSideTexture = textureLoader.load(grassSide);
 
 grassTexture.magFilter = NearestFilter;
+grassTexture.colorSpace = SRGBColorSpace;
 
 const textures: Textures = {
   grass: grassTexture,

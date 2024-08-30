@@ -33,14 +33,11 @@ export class Environment {
   }
 
   //初始化场景
-  private initScene() {
-    const environmentLight = new AmbientLight(0xeeeeee, 0.7);
-    this.scene.add(environmentLight);
-  }
+  private initScene() {}
 
   //初始化相机
   private initCamera() {
-    this.camera.position.z = 5;
+    this.camera.position.set(20, 10, 20);
   }
 
   //初始化帧率查看器

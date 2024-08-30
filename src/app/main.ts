@@ -1,20 +1,42 @@
 import {
+  AmbientLight,
   BoxGeometry,
+  Color,
+  DirectionalLight,
+  DirectionalLightHelper,
   InstancedMesh,
   Matrix4,
   MeshLambertMaterial,
   Scene,
   Vector3,
 } from "three";
-import { OrbitControls } from "three/examples/jsm/Addons.js";
+import { PointerLockControls } from "three/examples/jsm/Addons.js";
 import { Environment } from "./environment/Environment";
 import { textures } from "./textures/MaterialManager";
 
 const environment = new Environment();
 const { renderer, camera, scene, stats } = environment.getEssentials();
 
-//添加一个测试方块
+//初始化我们的世界
+function initWorld(scene: Scene) {
+  //更改天空颜色
+  scene.background = new Color(0x75bfef); //#75bfef
 
+  //添加光照
+  const environmentLight = new AmbientLight(0xeeeeee, 0.7);
+  scene.add(environmentLight);
+
+  //添加阳光
+  const sunLight = new DirectionalLight();
+  sunLight.position.set(5, 50, 40);
+
+  const lightHelper = new DirectionalLightHelper(sunLight, 8, new Color("red"));
+  scene.add(lightHelper);
+
+  scene.add(sunLight);
+}
+
+//添加一片测试方块
 function addBlocks(scene: Scene, size: number) {
   const geometry = new BoxGeometry(1, 1, 1);
   const material = new MeshLambertMaterial({ map: textures.grass });
@@ -37,15 +59,22 @@ function addBlocks(scene: Scene, size: number) {
   return block;
 }
 
-const orbitControls = new OrbitControls(camera, renderer.domElement);
+initWorld(scene); //初始化世界
+addBlocks(scene, 16); //生成方块
 
-addBlocks(scene, 128);
+const fpvControls = new PointerLockControls(camera, renderer.domElement); //添加第一人称视角控制
+//click: 鼠标单击
+//keydown: 按下按键
+//keyup: 抬起按键
+document.addEventListener("click", () => {
+  if (!fpvControls.isLocked) {
+    fpvControls.lock();
+  }
+});
 
 //渲染循环，整个程序的核心
 function renderLoop() {
   environment.render();
-
-  orbitControls.update();
 
   stats.update();
 
